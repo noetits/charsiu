@@ -108,7 +108,7 @@ class charsiu_forced_aligner(charsiu_aligner):
     
     def __init__(self, aligner, sil_threshold=4, **kwargs):
         super(charsiu_forced_aligner, self).__init__(**kwargs)
-        self.aligner = Wav2Vec2ForFrameClassification.from_pretrained(aligner)
+        self.aligner = Wav2Vec2ForFrameClassification.from_pretrained(aligner, output_hidden_states=True)
         self.sil_threshold = sil_threshold
         
         self._freeze_model()
@@ -246,7 +246,7 @@ class charsiu_attention_aligner(charsiu_aligner):
 
     def __init__(self, aligner, **kwargs):
         super(charsiu_attention_aligner, self).__init__(**kwargs)
-        self.aligner = Wav2Vec2ForAttentionAlignment.from_pretrained(aligner)
+        self.aligner = Wav2Vec2ForAttentionAlignment.from_pretrained(aligner, output_hidden_states=True)
     
         self._freeze_model()
         
@@ -342,8 +342,8 @@ class charsiu_chain_attention_aligner(charsiu_aligner):
     
     def __init__(self, aligner, recognizer, **kwargs):
         super(charsiu_chain_attention_aligner, self).__init__(**kwargs)
-        self.aligner = Wav2Vec2ForAttentionAlignment.from_pretrained(aligner)
-        self.recognizer = Wav2Vec2ForCTC.from_pretrained(recognizer)
+        self.aligner = Wav2Vec2ForAttentionAlignment.from_pretrained(aligner, output_hidden_states=True)
+        self.recognizer = Wav2Vec2ForCTC.from_pretrained(recognizer, output_hidden_states=True)
         
         self._freeze_model()
         
@@ -363,7 +363,7 @@ class charsiu_chain_attention_aligner(charsiu_aligner):
         '''
         if self.recognizer is None:
             print('A recognizer is not specified. Will use the default recognizer.')
-            self.recognizer = Wav2Vec2ForCTC.from_pretrained('charsiu/en_w2v2_ctc_libris_and_cv')
+            self.recognizer = Wav2Vec2ForCTC.from_pretrained('charsiu/en_w2v2_ctc_libris_and_cv', output_hidden_states=True)
         
         # perform phone recognition
         audio = self.charsiu_processor.audio_preprocess(audio,sr=self.sr)
@@ -427,8 +427,8 @@ class charsiu_chain_forced_aligner(charsiu_aligner):
     
     def __init__(self, aligner, recognizer, **kwargs):
         super(charsiu_chain_forced_aligner, self).__init__(**kwargs)
-        self.aligner = Wav2Vec2ForFrameClassification.from_pretrained(aligner)
-        self.recognizer = Wav2Vec2ForCTC.from_pretrained(recognizer)
+        self.aligner = Wav2Vec2ForFrameClassification.from_pretrained(aligner, output_hidden_states=True)
+        self.recognizer = Wav2Vec2ForCTC.from_pretrained(recognizer, output_hidden_states=True)
         
         self._freeze_model()
         
@@ -448,7 +448,7 @@ class charsiu_chain_forced_aligner(charsiu_aligner):
         '''
         if self.recognizer is None:
             print('A recognizer is not specified. Will use the default recognizer.')
-            self.recognizer = Wav2Vec2ForCTC.from_pretrained('charsiu/en_w2v2_ctc_libris_and_cv')
+            self.recognizer = Wav2Vec2ForCTC.from_pretrained('charsiu/en_w2v2_ctc_libris_and_cv', output_hidden_states=True)
         
         # perform phone recognition
         audio = self.charsiu_processor.audio_preprocess(audio,sr=self.sr)
@@ -508,7 +508,7 @@ class charsiu_predictive_aligner(charsiu_aligner):
     
     def __init__(self, aligner, **kwargs):
         super(charsiu_predictive_aligner, self).__init__(**kwargs)
-        self.aligner = Wav2Vec2ForFrameClassification.from_pretrained(aligner)
+        self.aligner = Wav2Vec2ForFrameClassification.from_pretrained(aligner, output_hidden_states=True)
         self._freeze_model()
     
     def align(self, audio):
