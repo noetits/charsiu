@@ -1,7 +1,8 @@
 ## Charsiu: A transformer-based phonetic aligner [[arXiv]](https://arxiv.org/abs/2110.03876)
 
 ### Updates
-- 1.31.2022. We release phone- and word-level alignments for over a million Mandarin utterances. Check out [this link](misc/data.md).  
+- 2.10.2022. We release phone- and word-level alignments for 860k utterances from the English subset of Common Voice. Check out [this link](misc/data.md#alignments-for-english-datasets).  
+- 1.31.2022. We release phone- and word-level alignments for over a million Mandarin utterances. Check out [this link](misc/data.md#alignments-for-mandarin-speech-datasets).  
 - 1.26.2022. Word alignment functionality has been added to `charsiu_forced_aligner` .
 
 ### Intro
@@ -45,6 +46,9 @@ cd charsiu
 #### Forced alignment
 ```Python
 from Charsiu import charsiu_forced_aligner
+# if there are errors importing, uncomment the following lines and add path to charsiu
+# import sys
+# sys.path.append('path_to_charsiu/src')
 
 # initialize model
 charsiu = charsiu_forced_aligner(aligner='charsiu/en_w2v2_fc_10ms')
@@ -62,6 +66,11 @@ charsiu = charsiu_forced_aligner(aligner='charsiu/zh_w2v2_tiny_fc_10ms',lang='zh
 charsiu.align(audio='./local/SSB00050015_16k.wav',text='经广州日报报道后成为了社会热点。')
 charsiu.serve(audio='./local/SSB00050015_16k.wav', text='经广州日报报道后成为了社会热点。',
               save_to='./local/SSB00050015.TextGrid')
+              
+# An numpy array of speech signal can also be passed to the model.
+import soundfile as sf
+y, sr = sf.read('./local/SSB00050015_16k.wav')
+charsiu.align(audio=y,text='经广州日报报道后成为了社会热点。')
 ```
 
 
