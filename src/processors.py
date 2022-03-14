@@ -104,10 +104,8 @@ English g2p processor
 '''
 class CharsiuPreprocessor_en(CharsiuPreprocessor):
     
-    def __init__(self):
-        
-        tokenizer = Wav2Vec2CTCTokenizer.from_pretrained('charsiu/tokenizer_en_cmu')
-        feature_extractor = Wav2Vec2FeatureExtractor(feature_size=1, sampling_rate=16000, padding_value=0.0, do_normalize=True, return_attention_mask=False)
+    def __init__(self, tokenizer = Wav2Vec2CTCTokenizer.from_pretrained('charsiu/tokenizer_en_cmu'), 
+                    feature_extractor = Wav2Vec2FeatureExtractor(feature_size=1, sampling_rate=16000, padding_value=0.0, do_normalize=True, return_attention_mask=False)):
         self.processor = Wav2Vec2Processor(feature_extractor=feature_extractor, tokenizer=tokenizer)
         self.g2p = G2p()
         self.sil = '[SIL]'
@@ -257,9 +255,10 @@ Mandarin g2p processor
 
 class CharsiuPreprocessor_zh(CharsiuPreprocessor_en):
 
-    def __init__(self):
-        tokenizer = Wav2Vec2CTCTokenizer.from_pretrained('charsiu/tokenizer_zh_pinyin')
-        feature_extractor = Wav2Vec2FeatureExtractor(feature_size=1, sampling_rate=16000, padding_value=0.0, do_normalize=True, return_attention_mask=False)
+    def __init__(self,
+                tokenizer = Wav2Vec2CTCTokenizer.from_pretrained('charsiu/tokenizer_zh_pinyin'),
+                feature_extractor = Wav2Vec2FeatureExtractor(feature_size=1, sampling_rate=16000, padding_value=0.0, do_normalize=True, return_attention_mask=False)):
+        
         self.processor = Wav2Vec2Processor(feature_extractor=feature_extractor, tokenizer=tokenizer)
         self.g2p = G2pM()
         self.sil = "[SIL]"
